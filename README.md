@@ -7,3 +7,5 @@ Este proyecto se desarrolló en un día, por problemas técnicos. Se me quemo mi
 Me comprometo a seguir completando y haciéndole mejoras a este proyecto.
 Desde ya, ¡muchas gracias! 
 
+Iniciar sesión con la siguiente credencial...
+Usuario: admin | Contraseña: admin123
