@@ -1,7 +1,6 @@
 const connection = require('../config/db.config');
 const jwt = require('jsonwebtoken');
 
-
 exports.getAllPlayers = (req, res) => {
   const query = 'SELECT * FROM players';
   connection.query(query, (err, results) => {
@@ -34,7 +33,7 @@ exports.createPlayer = (req, res) => {
     return res.status(400).json({ message: 'Faltan datos del jugador' });
   }
 
-  const query = 'INSERT INTO players (long_name, player_position, club_name, nationality_name, age) VALUES (?, ?, ?, ?, ?)';
+  const query = 'INSERT INTO players (long_name, player_positions, club_name, nationality_name, age) VALUES (?, ?, ?, ?, ?)';
 
   connection.query(query, [long_name, player_positions, club_name, nationality_name, age], (err, results) => {
     if (err) {
@@ -46,15 +45,15 @@ exports.createPlayer = (req, res) => {
 
 exports.updatePlayer = (req, res) => {
   const Id = req.params.id;
-  const { long_name, player_position, club_name, nationality_name, age } = req.body;
+  const { long_name, player_positions, club_name, nationality_name, age } = req.body;
 
-  if (!long_name || !player_position || !club_name || !nationality_name || !age) {
+  if (!long_name || !player_positions || !club_name || !nationality_name || !age) {
     return res.status(400).json({ message: 'Faltan datos del jugador' });
   }
 
-  const query = 'UPDATE players SET long_name = ?, player_position = ?, club_name = ?, nationality_name = ?, age = ? WHERE id = ?';
+  const query = 'UPDATE players SET long_name = ?, player_positions = ?, club_name = ?, nationality_name = ?, age = ? WHERE id = ?';
 
-  connection.query(query, [long_name, player_position, club_name, nationality_name, age, Id], (err, results) => {
+  connection.query(query, [long_name, player_positions, club_name, nationality_name, age, Id], (err, results) => {
     if (err) {
       return res.status(500).json({ error: 'Error al actualizar jugador' });
     }
@@ -78,6 +77,32 @@ exports.deletePlayer = (req, res) => {
       return res.status(404).json({ message: 'Jugador no encontrado' });
     }
     res.json({ message: 'Jugador eliminado exitosamente' });
+  });
+};
+
+exports.filterPlayers = (req, res) => {
+  const { long_name, nationality_name, age } = req.query; 
+  let query = 'SELECT * FROM players WHERE 1=1';
+  const params = [];
+
+  if (long_name) {
+    query += ' AND long_name LIKE ?';
+    params.push(`%${long_name}%`);
+  }
+  if (nationality_name) {
+    query += ' AND nationality_name LIKE ?';
+    params.push(`%${nationality_name}%`);
+  }
+  if (age) {
+    query += ' AND age = ?'; 
+    params.push(age);
+  }
+
+  connection.query(query, params, (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: 'Error al filtrar jugadores' });
+    }
+    res.json(results);
   });
 };
 

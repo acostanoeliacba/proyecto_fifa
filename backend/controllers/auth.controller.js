@@ -3,7 +3,8 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 const USERS = [
   { usuario: 'admin', password: 'admin123' },
-  { usuario: 'user', password: 'user123' } 
+  { usuario: 'user', password: 'user123' },
+  { usuario: 'noelia', password: 'ffnnff'} 
 ];
 
 exports.register = (req, res) => {
