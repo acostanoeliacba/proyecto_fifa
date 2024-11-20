@@ -8,5 +8,4 @@ Me comprometo a seguir completando y haciéndole mejoras a este proyecto.
 Desde ya, ¡muchas gracias! 
 
 Iniciar sesión con la siguiente credencial...
-Usuario: admin
-Contraseña: admin123
+Usuario: admin | Contraseña: admin123
